@@ -50,7 +50,7 @@ void DeviceSearcher::readPendingDatagrams() {
         mUdpSocket->readDatagram(datagram.data(), datagram.size(),
                                 &sender, &senderPort);
         
-        qDebug() << "========> \n" << datagram << "\n++++++++++++++++++++++++\n";
+//        qDebug() << "========> \n" << datagram << "\n++++++++++++++++++++++++\n";
         
         QHash<QString, QString> namespaces;
         namespaces.insert("SOAP-ENV", "http://www.w3.org/2003/05/soap-envelope");
@@ -113,7 +113,8 @@ void DeviceSearcher::readPendingDatagrams() {
         device_infos.insert("device_service_address", parser.getValue("//d:ProbeMatches/d:ProbeMatch/d:XAddrs/string()"));
         device_infos.insert("scopes", parser.getValue("//d:ProbeMatches/d:ProbeMatch/wsa:EndpointReference/wsa:Address/string()"));
         device_infos.insert("metadata_version", parser.getValue("//d:ProbeMatches/d:ProbeMatch/d:MetadataVersion/string()"));
-        qDebug() << device_infos;
+        
+        qDebug() << "Device =============>\n" << device_infos;
         emit receiveData(device_infos);
     }    
 }

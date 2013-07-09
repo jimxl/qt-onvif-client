@@ -19,10 +19,16 @@ SOURCES += main.cpp \
     lib/message.cpp \
     test/testmesasge.cpp \
     lib/devicesearcher.cpp \
-    lib/messageparser.cpp
+    lib/messageparser.cpp \
+    lib/device_management/service.cpp \
+    lib/action.cpp \
+    lib/client.cpp
 
 HEADERS += \
     lib/message.h \
     test/testmesasge.h \
     lib/devicesearcher.h \
-    lib/messageparser.h
+    lib/messageparser.h \
+    lib/device_management/service.h \
+    lib/action.h \
+    lib/client.h
