@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core testlib xml
+QT       += core testlib xml network xmlpatterns
 
 QT       -= gui
 
@@ -17,8 +17,12 @@ TEMPLATE = app
 
 SOURCES += main.cpp \
     lib/message.cpp \
-    test/testmesasge.cpp
+    test/testmesasge.cpp \
+    lib/devicesearcher.cpp \
+    lib/messageparser.cpp
 
 HEADERS += \
     lib/message.h \
-    test/testmesasge.h
+    test/testmesasge.h \
+    lib/devicesearcher.h \
+    lib/messageparser.h
