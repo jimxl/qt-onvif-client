@@ -76,8 +76,8 @@ Message* Message::getMessageWithUserInfo(QHash<QString, QString> &namespaces, co
     
     QDomElement timestamp = newElement("wsu:Timestamp");
     timestamp.setAttribute("wsu:Id", "Timestamp-2");
-    timestamp.appendChild(newElement("wsu:Created", QDateTime::currentDateTime().toTimeSpec(Qt::UTC).time().toString("YYYY-MM DDTHH：MM：SS")));
-    timestamp.appendChild(newElement("wsu:Expires", QDateTime::currentDateTime().toTimeSpec(Qt::UTC).time().addSecs(10).toString("YYYY-MM DDTHH：MM：SS")));
+    timestamp.appendChild(newElement("wsu:Created", QDateTime::currentDateTime().toTimeSpec(Qt::UTC).toString("yyyy-MM-ddThh:mm:ss")));
+    timestamp.appendChild(newElement("wsu:Expires", QDateTime::currentDateTime().toTimeSpec(Qt::UTC).addSecs(10).toString("yyyy-MM-ddThh:mm:ss")));
     
     security.appendChild(usernameToken);
     security.appendChild(timestamp);
