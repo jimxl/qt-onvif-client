@@ -21,9 +21,13 @@ MessageParser::~MessageParser() {
 }
 
 QString MessageParser::getValue(const QString &xpath) {
+
     QString str;
 //    qDebug() << mNamespaceQueryStr + "doc($inputDocument)" + xpath + "/string()";
     mQuery.setQuery(mNamespaceQueryStr + "doc($inputDocument)" + xpath + "/string()");
+    if(!mQuery.isValid()) {
+        return "";
+    }
     mQuery.evaluateTo(&str);
     return str.trimmed();
 }

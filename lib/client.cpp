@@ -11,8 +11,9 @@ Client::Client(const QString &url) {
 }
 
 QString Client::sendData(const QString &data) {
-    qDebug() << "send to url => " << mUrl << " | data => " << data;
+//    qDebug() << "send to url => " << mUrl << " | data => " << data;
     QHttp http;
+    http.ignoreSslErrors();
     QUrl url(mUrl);
     http.setHost(url.host());
     http.post(url.path(), data.toUtf8());

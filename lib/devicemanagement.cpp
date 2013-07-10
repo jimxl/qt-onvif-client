@@ -86,3 +86,36 @@ Message *DeviceManagement::newMessage() {
     names.insert("wsdl", "http://www.onvif.org/ver10/device/wsdl");
     return createMessage(names);
 }
+
+SystemDateAndTime *DeviceManagement::getSystemDateAndTime() {
+    SystemDateAndTime *dateAndTime = NULL;
+    Message *msg = newMessage();
+    msg->appendToBody(newElement("wsdl:GetSystemDateAndTime"));
+    MessageParser *result = sendMessage(msg);
+    
+    if(result != NULL) {
+        dateAndTime = new SystemDateAndTime();
+        dateAndTime->setProperty("dateTimeType", result->getValue("//tt:DateTimeType"));
+        dateAndTime->setDaylightSavings(result->getValue("//tt:DaylightSavings") == "true");
+        dateAndTime->setUtcTime(
+            result->getValue("//tt:UTCDateTime/tt:Date/tt:Year").toInt(),
+            result->getValue("//tt:UTCDateTime/tt:Date/tt:Month").toInt(),
+            result->getValue("//tt:UTCDateTime/tt:Date/tt:Day").toInt(),
+            result->getValue("//tt:UTCDateTime/tt:Time/tt:Hour").toInt(),
+            result->getValue("//tt:UTCDateTime/tt:Time/tt:Minute").toInt(),
+            result->getValue("//tt:UTCDateTime/tt:Time/tt:Second").toInt()
+        );
+        dateAndTime->setLocalTime(
+            result->getValue("//tt:LocalDateTime/tt:Date/tt:Year").toInt(),
+            result->getValue("//tt:LocalDateTime/tt:Date/tt:Month").toInt(),
+            result->getValue("//tt:LocalDateTime/tt:Date/tt:Day").toInt(),
+            result->getValue("//tt:LocalDateTime/tt:Time/tt:Hour").toInt(),
+            result->getValue("//tt:LocalDateTime/tt:Time/tt:Minute").toInt(),
+            result->getValue("//tt:LocalDateTime/tt:Time/tt:Second").toInt()
+        );
+    }
+    
+    delete result;
+    delete msg;
+    return dateAndTime;
+}

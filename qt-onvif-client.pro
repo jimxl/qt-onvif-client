@@ -14,7 +14,6 @@ CONFIG   -= app_bundle
 
 TEMPLATE = app
 
-
 SOURCES += main.cpp \
     lib/message.cpp \
     test/testmesasge.cpp \
@@ -22,7 +21,9 @@ SOURCES += main.cpp \
     lib/messageparser.cpp \
     lib/service.cpp \
     lib/client.cpp \
-    lib/devicemanagement.cpp
+    lib/devicemanagement.cpp \
+    lib/device_management/systemdateandtime.cpp \
+    test/testdevicemanagement.cpp
 
 HEADERS += \
     lib/message.h \
@@ -31,4 +32,6 @@ HEADERS += \
     lib/messageparser.h \
     lib/service.h \
     lib/client.h \
-    lib/devicemanagement.h
+    lib/devicemanagement.h \
+    lib/device_management/systemdateandtime.h \
+    test/testdevicemanagement.h
