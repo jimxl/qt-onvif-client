@@ -11,13 +11,15 @@ Client::Client(const QString &url) {
 }
 
 QString Client::sendData(const QString &data) {
-    qDebug() << "url" << mUrl;
+    qDebug() << "send to url => " << mUrl << " | data => " << data;
     QHttp http;
     QUrl url(mUrl);
     http.setHost(url.host());
     http.post(url.path(), data.toUtf8());
     waitForFinish(http);
-    
+    if(http.error() != QHttp::NoError) {
+        return "";
+    }
     return QString(http.readAll());
 }
 

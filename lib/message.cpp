@@ -81,6 +81,7 @@ Message* Message::getMessageWithUserInfo(QHash<QString, QString> &namespaces, co
     
     security.appendChild(usernameToken);
     security.appendChild(timestamp);
+    msg->appendToHeader(security);
     return msg;
 }
 

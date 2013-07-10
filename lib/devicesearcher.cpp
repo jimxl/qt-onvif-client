@@ -107,12 +107,12 @@ void DeviceSearcher::readPendingDatagrams() {
         MessageParser parser(QString(datagram), namespaces);
         
         QHash<QString, QString> device_infos;
-        device_infos.insert("ep_address", parser.getValue("//d:ProbeMatches/d:ProbeMatch/wsa:EndpointReference/wsa:Address/string()"));
-        device_infos.insert("types", parser.getValue("//d:ProbeMatches/d:ProbeMatch/d:Types/string()"));
-        device_infos.insert("device_ip", parser.getValue("//d:ProbeMatches/d:ProbeMatch/d:Scopes/string()"));
-        device_infos.insert("device_service_address", parser.getValue("//d:ProbeMatches/d:ProbeMatch/d:XAddrs/string()"));
-        device_infos.insert("scopes", parser.getValue("//d:ProbeMatches/d:ProbeMatch/wsa:EndpointReference/wsa:Address/string()"));
-        device_infos.insert("metadata_version", parser.getValue("//d:ProbeMatches/d:ProbeMatch/d:MetadataVersion/string()"));
+        device_infos.insert("ep_address", parser.getValue("//d:ProbeMatches/d:ProbeMatch/wsa:EndpointReference/wsa:Address"));
+        device_infos.insert("types", parser.getValue("//d:ProbeMatches/d:ProbeMatch/d:Types"));
+        device_infos.insert("device_ip", parser.getValue("//d:ProbeMatches/d:ProbeMatch/d:Scopes"));
+        device_infos.insert("device_service_address", parser.getValue("//d:ProbeMatches/d:ProbeMatch/d:XAddrs"));
+        device_infos.insert("scopes", parser.getValue("//d:ProbeMatches/d:ProbeMatch/wsa:EndpointReference/wsa:Address"));
+        device_infos.insert("metadata_version", parser.getValue("//d:ProbeMatches/d:ProbeMatch/d:MetadataVersion"));
         
         qDebug() << "Device =============>\n" << device_infos;
         emit receiveData(device_infos);

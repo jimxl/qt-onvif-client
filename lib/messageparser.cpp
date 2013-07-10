@@ -12,7 +12,7 @@ MessageParser::MessageParser(const QString &data, QHash<QString, QString> &names
     mNamespaceQueryStr = "";
     while (i.hasNext()) {
         i.next();
-        mNamespaceQueryStr.append("declare namespace " + i.key() + " = \"" + i.value() + "\";");
+        mNamespaceQueryStr.append("declare namespace " + i.key() + " = \"" + i.value() + "\";\n");
     }
 }
 
@@ -22,8 +22,8 @@ MessageParser::~MessageParser() {
 
 QString MessageParser::getValue(const QString &xpath) {
     QString str;
-//    qDebug() << mNamespaceQueryStr + "doc($inputDocument)" + xpath;
-    mQuery.setQuery(mNamespaceQueryStr + "doc($inputDocument)" + xpath);
+    qDebug() << mNamespaceQueryStr + "doc($inputDocument)" + xpath + "/string()";
+    mQuery.setQuery(mNamespaceQueryStr + "doc($inputDocument)" + xpath + "/string()");
     mQuery.evaluateTo(&str);
     return str.trimmed();
 }
