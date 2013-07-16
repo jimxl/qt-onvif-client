@@ -104,7 +104,7 @@ QString Message::toXmlStr() {
     mEnv.appendChild(mHeader);
     mEnv.appendChild(mBody);
     mDoc.appendChild(mEnv);
-    return mDoc.toString(-1);
+    return mDoc.toString();
 }
 
 QString Message::uuid() {

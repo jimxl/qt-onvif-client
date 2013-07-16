@@ -23,7 +23,12 @@ SOURCES += main.cpp \
     lib/client.cpp \
     lib/devicemanagement.cpp \
     lib/device_management/systemdateandtime.cpp \
-    test/testdevicemanagement.cpp
+    test/testdevicemanagement.cpp \
+    lib/device_management/systemfactorydefault.cpp \
+    lib/device_management/user.cpp \
+    lib/device_management/systemreboot.cpp \
+    lib/device_management/networkinterfaces.cpp \
+    lib/device_management/networkprotocols.cpp
 
 HEADERS += \
     lib/message.h \
@@ -34,4 +39,9 @@ HEADERS += \
     lib/client.h \
     lib/devicemanagement.h \
     lib/device_management/systemdateandtime.h \
-    test/testdevicemanagement.h
+    test/testdevicemanagement.h \
+    lib/device_management/user.h \
+    lib/device_management/systemfactorydefault.h \
+    lib/device_management/systemreboot.h \
+    lib/device_management/networkinterfaces.h \
+    lib/device_management/networkprotocols.h

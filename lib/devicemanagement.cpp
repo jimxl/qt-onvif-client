@@ -1,4 +1,5 @@
 #include "devicemanagement.h"
+#include <QDebug>
 
 using namespace ONVIF;
 
@@ -84,20 +85,21 @@ QHash<QString, QString> DeviceManagement::getDeviceInformation() {
 Message *DeviceManagement::newMessage() {
     QHash<QString, QString> names;
     names.insert("wsdl", "http://www.onvif.org/ver10/device/wsdl");
+    names.insert("sch", "http://www.onvif.org/ver10/schema");
     return createMessage(names);
 }
 
 SystemDateAndTime *DeviceManagement::getSystemDateAndTime() {
-    SystemDateAndTime *dateAndTime = NULL;
+    SystemDateAndTime *systemDateAndTime = NULL;
     Message *msg = newMessage();
     msg->appendToBody(newElement("wsdl:GetSystemDateAndTime"));
     MessageParser *result = sendMessage(msg);
     
     if(result != NULL) {
-        dateAndTime = new SystemDateAndTime();
-        dateAndTime->setProperty("dateTimeType", result->getValue("//tt:DateTimeType"));
-        dateAndTime->setDaylightSavings(result->getValue("//tt:DaylightSavings") == "true");
-        dateAndTime->setUtcTime(
+        systemDateAndTime = new SystemDateAndTime();
+        systemDateAndTime->setProperty("dateTimeType", result->getValue("//tt:DateTimeType"));
+        systemDateAndTime->setDaylightSavings(result->getValue("//tt:DaylightSavings") == "true");
+        systemDateAndTime->setUtcTime(
             result->getValue("//tt:UTCDateTime/tt:Date/tt:Year").toInt(),
             result->getValue("//tt:UTCDateTime/tt:Date/tt:Month").toInt(),
             result->getValue("//tt:UTCDateTime/tt:Date/tt:Day").toInt(),
@@ -105,7 +107,7 @@ SystemDateAndTime *DeviceManagement::getSystemDateAndTime() {
             result->getValue("//tt:UTCDateTime/tt:Time/tt:Minute").toInt(),
             result->getValue("//tt:UTCDateTime/tt:Time/tt:Second").toInt()
         );
-        dateAndTime->setLocalTime(
+        systemDateAndTime->setLocalTime(
             result->getValue("//tt:LocalDateTime/tt:Date/tt:Year").toInt(),
             result->getValue("//tt:LocalDateTime/tt:Date/tt:Month").toInt(),
             result->getValue("//tt:LocalDateTime/tt:Date/tt:Day").toInt(),
@@ -117,5 +119,136 @@ SystemDateAndTime *DeviceManagement::getSystemDateAndTime() {
     
     delete result;
     delete msg;
-    return dateAndTime;
+    return systemDateAndTime;
 }
+
+void DeviceManagement::setSystemDateAndTime()
+{
+    SystemDateAndTime *systemDateAndTime = NULL;
+    systemDateAndTime = new SystemDateAndTime();
+    systemDateAndTime->setLocalTime(2017,5,5,5,5,5);
+    systemDateAndTime->setProperty("daylightSavings",false);
+    systemDateAndTime->setProperty("tz","CST-8");
+
+    Message *msg = newMessage();
+    msg->appendToBody(systemDateAndTime->toxml());
+    qDebug() << msg->toXmlStr();
+    MessageParser *result = sendMessage(msg);
+    if(result != NULL){
+        delete result;
+        delete msg;
+   }
+}
+
+void DeviceManagement::setSystemFactoryDefault()
+{
+    SystemFactoryDefault *systemFactoryDefault = NULL;
+    systemFactoryDefault = new SystemFactoryDefault();
+    systemFactoryDefault->setProperty("factoryDefault",SystemFactoryDefault::Hard);
+    Message *msg = newMessage();
+    msg->appendToBody(systemFactoryDefault->toxml());
+    qDebug() << msg->toXmlStr();
+    MessageParser *result = sendMessage(msg);
+    if(result != NULL){
+        delete result;
+        delete msg;
+    }
+}
+
+void DeviceManagement::setSystemReboot()
+{
+    SystemReboot *systemReboot = NULL;
+    Message *msg = newMessage();
+    msg->appendToBody(systemReboot->toxml());
+    qDebug() << msg->toXmlStr();
+//    MessageParser *result = sendMessage(msg);
+//    if(result != NULL){
+//        delete result;
+//        delete msg;
+//    }
+}
+
+Users *DeviceManagement::getUser()
+{
+    Users *user = NULL;
+    Message *msg = newMessage();
+    msg->appendToBody(newElement("wsdl:GetUsers"));
+    MessageParser *result = sendMessage(msg);
+    if(result != NULL) {
+        user = new Users();
+        user->setProperty("userName", result->getValue("//tt:Username"));
+        user->setProperty("passWord",result->getValue("//tt:Password"));
+        user->setProperty("userLevel",result->getValue("//tt:UserLevel"));
+    }
+    delete result;
+    delete msg;
+    return user;
+}
+
+NetworkInterfaces *DeviceManagement::getNetworkInterfaces()
+{
+    NetworkInterfaces *networkInterfaces = NULL;
+    Message *msg = newMessage();
+    msg->appendToBody(newElement("wsdl:GetNetworkInterfaces"));
+    MessageParser *result = sendMessage(msg);
+    if(result != NULL){
+        networkInterfaces = new NetworkInterfaces();
+        networkInterfaces->setProperty("networkInfacesEnabled",result->getValue("//tds:NetworkInterfaces/tt:Enabled"));
+        networkInterfaces->setProperty("networkInfacesName",result->getValue("//tt:Name"));
+        networkInterfaces->setProperty("hwAaddress",result->getValue("//tt:HwAddress"));
+        networkInterfaces->setProperty("mtu",result->getValue("//tt:MTU").toInt());
+        networkInterfaces->setProperty("ipv4Enabled",result->getValue("//tt:IPv4/tt:Enabled"));
+        networkInterfaces->setProperty("ipv4ManualAddress",result->getValue("//tt:Manual/tt:Address"));
+        networkInterfaces->setProperty("ipv4ManualPrefixLength",result->getValue("//tt:Manual/tt:PrefixLength").toInt());
+        networkInterfaces->setProperty("ipv4LinkLocalAddress",result->getValue("//tt:LinkLocal/tt:Address"));
+        networkInterfaces->setProperty("ipvLinkLocalPrefixLength",result->getValue("//tt:LinkLocal/tt:PrefixLength").toInt());
+        networkInterfaces->setProperty("ipv4FromDHCPAddress",result->getValue("//tt:FromDHCP/tt:Address"));
+        networkInterfaces->setProperty("ipv4FromDHCPPrefixLength",result->getValue("//tt:FromDHCP/tt:PrefixLength").toInt());
+        networkInterfaces->setProperty("ivp4DHCP",result->getValue("//tt:DHCP"));
+    }
+    delete result;
+    delete msg;
+    return networkInterfaces;
+}
+
+void DeviceManagement::setNetworkInterfaces()
+{
+    NetworkInterfaces *networkInterfaces = NULL;
+    networkInterfaces = new NetworkInterfaces();
+    networkInterfaces->setProperty("networkInfacesEnabled",true);
+    networkInterfaces->setProperty("autoNegotiation",true);
+    networkInterfaces->setProperty("speed",100);
+    networkInterfaces->setProperty("duplex",NetworkInterfaces::Full);
+    networkInterfaces->setProperty("mtu",1500);
+    networkInterfaces->setProperty("ipv4Enabled",false);
+    networkInterfaces->setProperty("ipv4ManualAddress","192.168.2.1");
+    networkInterfaces->setProperty("ipv4ManualPrefixLength",24);
+    networkInterfaces->setProperty("ipv4DHCP",true);
+    Message *msg = newMessage();
+    msg->appendToBody(networkInterfaces->toxml());
+    qDebug() << msg->toXmlStr();
+//    MessageParser *result = sendMessage(msg);
+//    if(result != NULL){
+//        delete result;
+//        delete msg;
+//    }
+}
+
+NetworkProtocols *DeviceManagement::getNetworkProtocols()
+{
+    NetworkProtocols *networkProtocols = NULL;
+    Message *msg = newMessage();
+    msg->appendToBody(newElement("wsdl:GetNetworkProtocols"));
+    MessageParser *result = sendMessage(msg);
+    if(result != NULL){
+        networkProtocols = new NetworkProtocols();
+        networkProtocols->setProperty("networkProtocolsName",result->getValue("//tds:NetworkProtocols/tt:Name"));
+        networkProtocols->setProperty("networkProtocolsEnabled",result->getValue("//tds:NetworkProtocols/tt:Enabled"));
+        networkProtocols->setProperty("networkProtocolsPort",result->getValue("//tds:NetworkProtocols/tt:Port"));
+    }
+    delete result;
+    delete msg;
+    return networkProtocols;
+}
+
+

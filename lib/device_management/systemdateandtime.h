@@ -2,13 +2,14 @@
 #define ONVIF_SYSTEMDATEANDTIME_H
 
 #include <QDateTime>
-
+#include <QDomElement>
 namespace ONVIF {
     class SystemDateAndTime : public QObject {
         Q_OBJECT
         Q_ENUMS(DateTimeType)
         Q_PROPERTY(DateTimeType dateTimeType READ dateTimeType WRITE setDateTimeType)
         Q_PROPERTY(bool daylightSavings READ daylightSavings WRITE setDaylightSavings)
+        Q_PROPERTY(QString tz READ tz WRITE setTz)
         
         Q_PROPERTY(QDateTime utcTime READ utcTime WRITE setutcTime)
         Q_PROPERTY(QDateTime localTime READ localTime WRITE setlocalTime)
@@ -16,10 +17,9 @@ namespace ONVIF {
         explicit SystemDateAndTime(QObject *parent = NULL);
         
         enum DateTimeType {Manual, NTP};
-        
-        
         void setUtcTime(int year, int month, int day, int hour, int minute, int second);
         void setLocalTime(int year, int month, int day, int hour, int minute, int second);
+        QDomElement toxml();
         
         bool daylightSavings() const
         {
@@ -42,6 +42,11 @@ namespace ONVIF {
             return m_localTime;
         }
         
+        QString tz() const
+        {
+            return m_tz;
+        }
+
     public slots:
         void setDaylightSavings(bool arg)
         {
@@ -62,12 +67,18 @@ namespace ONVIF {
             m_localTime = arg;
         }
         
+        void setTz(QString arg)
+        {
+            m_tz = arg;
+        }
+
     private:
         bool m_daylightSavings;
         DateTimeType m_dateTimeType;
         
         QDateTime m_utcTime;
         QDateTime m_localTime;
+        QString m_tz;
     };
 }
 

@@ -13,6 +13,13 @@ private slots:
     void initTestCase();
     void testGetDeviceInformation();
     void testGetSystemDateAndTime();
+    void testSetSystemDateAndTime();
+    void testSetSystemFactoryDefault();
+    void testSetSystemReboot();
+    void testGetUser();
+    void testGetNetworkInterfaces();
+    void testGetNetworkProtocols();
+    void testSetNetworkInterfaces();
     void cleanupTestCase();
 private:
     ONVIF::DeviceManagement *mDeviceManagement;
