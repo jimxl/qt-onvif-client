@@ -9,9 +9,10 @@ NetworkInterfaces::~NetworkInterfaces(){
 }
 
 QDomElement NetworkInterfaces::toxml(){
-    QDomElement setNetworkInterfaces,networkInterface,networkInterfaceEnabled,link,autoNegotiation,speed,duplex,
+    QDomElement setNetworkInterfaces,interfaceToken,networkInterface,networkInterfaceEnabled,link,autoNegotiation,speed,duplex,
             mtu,ipv4,ipv4Enabled,manual,address,prefixLength,dhcp;
     setNetworkInterfaces = newElement("wsdl:SetNetworkInterfaces");
+    interfaceToken = newElement("wsdl:InterfaceToken");
     networkInterface = newElement("wsdl:NetworkInterface");
     networkInterfaceEnabled = newElement("sch:Enabled",this->networkInfacesEnabled() == true?"true":"false");
     link = newElement("sch:Link");
@@ -26,6 +27,7 @@ QDomElement NetworkInterfaces::toxml(){
     address = newElement("sch:Address",this->ipv4ManualAddress());
     prefixLength = newElement("sch:PrefixLength",QString::number(this->ipv4ManualPrefixLength()));
     dhcp = newElement("sch:DHCP",this->ipv4Enabled() == true?"true":"false");
+    setNetworkInterfaces.appendChild(interfaceToken);
     setNetworkInterfaces.appendChild(networkInterface);
     networkInterface.appendChild(networkInterfaceEnabled);
     networkInterface.appendChild(link);

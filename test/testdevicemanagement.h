@@ -20,6 +20,10 @@ private slots:
     void testGetNetworkInterfaces();
     void testGetNetworkProtocols();
     void testSetNetworkInterfaces();
+    void testGetCapabilitiesPtz();
+    void testGetCapabilitiesImaging();
+    void testGetCapabilitiesMedia();
+    void testGetCapabilitiesDevice();
     void cleanupTestCase();
 private:
     ONVIF::DeviceManagement *mDeviceManagement;

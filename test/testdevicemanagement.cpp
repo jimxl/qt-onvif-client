@@ -32,23 +32,90 @@ void TestDeviceManagement::testGetSystemDateAndTime() {
 }
 
 void TestDeviceManagement::testSetSystemDateAndTime(){
-    mDeviceManagement->setSystemDateAndTime();
+    SystemDateAndTime *systemDateAndTime = new SystemDateAndTime();
+    systemDateAndTime->setLocalTime(2010,5,5,5,5,5);
+    systemDateAndTime->setDaylightSavings(false);
+    systemDateAndTime->setTz("CST-8");
+    mDeviceManagement->setSystemDateAndTime(systemDateAndTime);
 }
 
 void TestDeviceManagement::testSetSystemFactoryDefault(){
-    mDeviceManagement->setSystemFactoryDefault();
+    SystemFactoryDefault *systemFactoryDefault = new SystemFactoryDefault();
+    systemFactoryDefault->setFactoryDefault(SystemFactoryDefault::Hard);
+    mDeviceManagement->setSystemFactoryDefault(systemFactoryDefault);
 }
 
 void TestDeviceManagement::testSetSystemReboot(){
-    mDeviceManagement->setSystemReboot();
+    SystemReboot *systemReboot = new SystemReboot();
+  //  mDeviceManagement->systemReboot(systemReboot);
 }
 
 void TestDeviceManagement::testGetUser(){
-    Users *user = mDeviceManagement->getUser();
+    Users *user = mDeviceManagement->getUsers();
     QVERIFY(user != NULL);
     QCOMPARE(user->userName(),QString("admin"));
     QCOMPARE(user->passWord(),QString("admin"));
     QCOMPARE(user->userLevel(),Users::Administrator);
+}
+
+void TestDeviceManagement::testGetCapabilitiesPtz()
+{
+    Capabilities *cap = mDeviceManagement->getCapabilitiesPtz();
+    QVERIFY(cap != NULL);
+    QCOMPARE(cap->ptzXAddr(),QString("http://192.168.2.145:80/onvif/ptz_service"));
+}
+
+void TestDeviceManagement::testGetCapabilitiesImaging()
+{
+    Capabilities *cap = mDeviceManagement->getCapabilitiesImaging();
+    QVERIFY(cap != NULL);
+    QCOMPARE(cap->imagingXAddr(),QString("http://192.168.2.145:80//onvif/imaging_service"));
+}
+
+void TestDeviceManagement::testGetCapabilitiesMedia()
+{
+    Capabilities *cap = mDeviceManagement->getCapabilitiesMedia();
+    QVERIFY(cap != NULL);
+    QCOMPARE(cap->mediaXAddr(),QString("http://192.168.2.145:80/onvif/media_service"));
+    QCOMPARE(cap->rtpMulticast(),true);
+    QCOMPARE(cap->rtpRtspTcp(),true);
+    QCOMPARE(cap->rtpTcp(),true);
+}
+
+void TestDeviceManagement::testGetCapabilitiesDevice()
+{
+    Capabilities *cap = mDeviceManagement->getCapabilitiesDevice();
+    QVERIFY(cap != NULL);
+    QCOMPARE(cap->deviceXAddr(),QString("http://192.168.2.145:80/onvif/device_service"));
+    QCOMPARE(cap->iPFilter(),false);
+    QCOMPARE(cap->zeroConfiguration(),false);
+    QCOMPARE(cap->iPVersion6(),false);
+    QCOMPARE(cap->dynDNS(),false);
+    QCOMPARE(cap->disconveryResolve(),false);
+    QCOMPARE(cap->discoveryBye(),false);
+    QCOMPARE(cap->remoteDiscovery(),true);
+    QCOMPARE(cap->systemBackup(),false);
+    QCOMPARE(cap->systemLogging(),false);
+    QCOMPARE(cap->firmwareUpgrade(),false);
+    QCOMPARE(cap->major(),2);
+    QCOMPARE(cap->minor(),0);
+    QCOMPARE(cap->httpFirmwareUpgrade(),false);
+    QCOMPARE(cap->httpSystemBackup(),false);
+    QCOMPARE(cap->httpSystemLogging(),false);
+    QCOMPARE(cap->httpSupportInformation(),false);
+    QCOMPARE(cap->inputConnectors(),2);
+    QCOMPARE(cap->relayOutputs(),2);
+    QCOMPARE(cap->tls11(),false);
+    QCOMPARE(cap->tls22(),false);
+    QCOMPARE(cap->onboardKeyGeneration(),false);
+    QCOMPARE(cap->accessPolicyConfig(),false);
+    QCOMPARE(cap->x509Token(),false);
+    QCOMPARE(cap->samlToken(),false);
+    QCOMPARE(cap->kerberosToken(),false);
+    QCOMPARE(cap->relToken(),false);
+    QCOMPARE(cap->tls10(),false);
+    QCOMPARE(cap->dot1x(),false);
+    QCOMPARE(cap->remoteUserHanding(),false);
 }
 
 void TestDeviceManagement::testGetNetworkInterfaces()
@@ -70,7 +137,17 @@ void TestDeviceManagement::testGetNetworkInterfaces()
 
 void TestDeviceManagement::testSetNetworkInterfaces()
 {
-    mDeviceManagement->setNetworkInterfaces();
+    NetworkInterfaces *networkInterfaces = new NetworkInterfaces();
+    networkInterfaces->setNetworkInfacesEnabled(true);
+    networkInterfaces->setAutoNegotiation(true);
+    networkInterfaces->setSpeed(100);
+    networkInterfaces->setDuplex(NetworkInterfaces::Full);
+    networkInterfaces->setMtu(1500);
+    networkInterfaces->setIpv4Enabled(true);
+    networkInterfaces->setIpv4ManualAddress("192.168.2.145");
+    networkInterfaces->setIpv4ManualPrefixLength(24);
+    networkInterfaces->setIpv4DHCP(true);
+    mDeviceManagement->setNetworkInterfaces(networkInterfaces);
 }
 
 void TestDeviceManagement::testGetNetworkProtocols()

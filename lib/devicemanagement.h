@@ -9,6 +9,7 @@
 #include "device_management/systemreboot.h"
 #include "device_management/networkinterfaces.h"
 #include "device_management/networkprotocols.h"
+#include "device_management/capabilities.h"
 
 namespace ONVIF {
     class DeviceManagement : public Service {
@@ -17,13 +18,17 @@ namespace ONVIF {
         explicit DeviceManagement(const QString & wsdlUrl, const QString &username, const QString &password);
         QHash<QString, QString> getDeviceInformation();
         SystemDateAndTime *getSystemDateAndTime();
-        void setSystemDateAndTime();
-        void setSystemFactoryDefault();
-        void setSystemReboot();
-        Users *getUser();
+        void setSystemDateAndTime(SystemDateAndTime *systemDateAndTime);
+        void setSystemFactoryDefault(SystemFactoryDefault *systemFactoryDefault);
+        void systemReboot(SystemReboot *systemReboot);
+        Users *getUsers();
         NetworkInterfaces *getNetworkInterfaces();
         NetworkProtocols *getNetworkProtocols();
-        void setNetworkInterfaces();
+        void setNetworkInterfaces(NetworkInterfaces *networkInterfaces);
+        Capabilities *getCapabilitiesPtz();
+        Capabilities *getCapabilitiesImaging();
+        Capabilities *getCapabilitiesMedia();
+        Capabilities *getCapabilitiesDevice();
     protected:
         Message *newMessage();
         QHash<QString, QString> namespaces(const QString &key);

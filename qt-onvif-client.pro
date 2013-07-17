@@ -28,7 +28,8 @@ SOURCES += main.cpp \
     lib/device_management/user.cpp \
     lib/device_management/systemreboot.cpp \
     lib/device_management/networkinterfaces.cpp \
-    lib/device_management/networkprotocols.cpp
+    lib/device_management/networkprotocols.cpp \
+    lib/device_management/capabilities.cpp
 
 HEADERS += \
     lib/message.h \
@@ -44,4 +45,5 @@ HEADERS += \
     lib/device_management/systemfactorydefault.h \
     lib/device_management/systemreboot.h \
     lib/device_management/networkinterfaces.h \
-    lib/device_management/networkprotocols.h
+    lib/device_management/networkprotocols.h \
+    lib/device_management/capabilities.h

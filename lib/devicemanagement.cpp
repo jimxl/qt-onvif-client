@@ -122,14 +122,8 @@ SystemDateAndTime *DeviceManagement::getSystemDateAndTime() {
     return systemDateAndTime;
 }
 
-void DeviceManagement::setSystemDateAndTime()
+void DeviceManagement::setSystemDateAndTime(SystemDateAndTime *systemDateAndTime)
 {
-    SystemDateAndTime *systemDateAndTime = NULL;
-    systemDateAndTime = new SystemDateAndTime();
-    systemDateAndTime->setLocalTime(2017,5,5,5,5,5);
-    systemDateAndTime->setProperty("daylightSavings",false);
-    systemDateAndTime->setProperty("tz","CST-8");
-
     Message *msg = newMessage();
     msg->appendToBody(systemDateAndTime->toxml());
     qDebug() << msg->toXmlStr();
@@ -140,11 +134,8 @@ void DeviceManagement::setSystemDateAndTime()
    }
 }
 
-void DeviceManagement::setSystemFactoryDefault()
+void DeviceManagement::setSystemFactoryDefault(SystemFactoryDefault *systemFactoryDefault)
 {
-    SystemFactoryDefault *systemFactoryDefault = NULL;
-    systemFactoryDefault = new SystemFactoryDefault();
-    systemFactoryDefault->setProperty("factoryDefault",SystemFactoryDefault::Hard);
     Message *msg = newMessage();
     msg->appendToBody(systemFactoryDefault->toxml());
     qDebug() << msg->toXmlStr();
@@ -155,20 +146,19 @@ void DeviceManagement::setSystemFactoryDefault()
     }
 }
 
-void DeviceManagement::setSystemReboot()
+void DeviceManagement::systemReboot(SystemReboot *systemReboot)
 {
-    SystemReboot *systemReboot = NULL;
     Message *msg = newMessage();
     msg->appendToBody(systemReboot->toxml());
     qDebug() << msg->toXmlStr();
-//    MessageParser *result = sendMessage(msg);
-//    if(result != NULL){
-//        delete result;
-//        delete msg;
-//    }
+    MessageParser *result = sendMessage(msg);
+    if(result != NULL){
+        delete result;
+        delete msg;
+    }
 }
 
-Users *DeviceManagement::getUser()
+Users *DeviceManagement::getUsers()
 {
     Users *user = NULL;
     Message *msg = newMessage();
@@ -184,6 +174,109 @@ Users *DeviceManagement::getUser()
     delete msg;
     return user;
 }
+
+Capabilities *DeviceManagement::getCapabilitiesPtz()
+{
+    Capabilities *capabilities = NULL;
+    Message *msg = newMessage();
+    QDomElement cap = newElement("wsdl:GetCapabilities");
+    cap.appendChild(newElement("wsdl:Category","PTZ"));
+    msg->appendToBody(cap);
+    MessageParser *result = sendMessage(msg);
+    if(result != NULL){
+        capabilities = new Capabilities();
+        capabilities->setProperty("ptzXAddr",result->getValue("//tt:PTZ/tt:XAddr"));
+    }
+    delete result;
+    delete msg;
+    return capabilities;
+}
+
+Capabilities *DeviceManagement::getCapabilitiesImaging()
+{
+    Capabilities *capabilities = NULL;
+    Message *msg = newMessage();
+    QDomElement cap = newElement("wsdl:GetCapabilities");
+    cap.appendChild(newElement("wsdl:Category","Imaging"));
+    msg->appendToBody(cap);
+    MessageParser *result = sendMessage(msg);
+    if(result != NULL){
+        capabilities = new Capabilities();
+        capabilities->setProperty("imagingXAddr",result->getValue("//tt:Imaging/tt:XAddr"));
+    }
+    delete result;
+    delete msg;
+    return capabilities;
+}
+
+Capabilities *DeviceManagement::getCapabilitiesMedia()
+{
+    Capabilities *capabilities = NULL;
+    Message *msg = newMessage();
+    QDomElement cap = newElement("wsdl:GetCapabilities");
+    cap.appendChild(newElement("wsdl:Category","Media"));
+    msg->appendToBody(cap);
+    MessageParser *result = sendMessage(msg);
+    if(result != NULL){
+        capabilities = new Capabilities();
+        capabilities->setProperty("mediaXAddr",result->getValue("//tt:Media/tt:XAddr"));
+        capabilities->setProperty("rtpMulticast",result->getValue("//tt:RTPMulticast") == "true"?true:false);
+        capabilities->setProperty("rtpTcp",result->getValue("//tt:RTP_TCP") == "true"?true:false);
+        capabilities->setProperty("rtpRtspTcp",result->getValue("//tt:RTP_RTSP_TCP") == "true"?true:false);
+    }
+    delete result;
+    delete msg;
+    return capabilities;
+}
+
+Capabilities *DeviceManagement::getCapabilitiesDevice()
+{
+    Capabilities *capabilities = NULL;
+    Message *msg = newMessage();
+    QDomElement cap = newElement("wsdl:GetCapabilities");
+    cap.appendChild(newElement("wsdl:Category","Device"));
+    msg->appendToBody(cap);
+    MessageParser *result = sendMessage(msg);
+    if(result != NULL){
+        capabilities = new Capabilities();
+        capabilities->setProperty("deviceXAddr",result->getValue("//tt:Device/tt:XAddr"));
+        capabilities->setProperty("iPFilter",result->getValue("//tt:IPFilter") == "true"?true:false);
+        capabilities->setProperty("zeroConfiguration",result->getValue("//tt:ZeroConfiguration") == "true"?true:false);
+        capabilities->setProperty("iPVersion6",result->getValue("//tt:IPVersion6") == "true"?true:false);
+        capabilities->setProperty("dynDNS",result->getValue("//tt:DynDNS") == "true"?true:false);
+        capabilities->setProperty("discoveryResolve",result->getValue("//tt:DiscoveryResolve") == "true"?true:false);
+        capabilities->setProperty("discoveryBye",result->getValue("//tt:DiscoveryBye") == "true"?true:false);
+        capabilities->setProperty("remoteDiscovery",result->getValue("//tt:RemoteDiscovery") == "true"?true:false);
+        capabilities->setProperty("systemBackup",result->getValue("//tt:SystemBackup") == "true"?true:false);
+        capabilities->setProperty("systemLogging",result->getValue("//tt:SystemLogging") == "true"?true:false);
+        capabilities->setProperty("firmwareUpgrade",result->getValue("//tt:FirmwareUpgrade") == "true"?true:false);
+        capabilities->setProperty("major",result->getValue("//tt:Major").toInt());
+        capabilities->setProperty("minor",result->getValue("//tt:Minor").toInt());
+        capabilities->setProperty("httpFirmwareUpgrade",result->getValue("//tt:HttpFirmwareUpgrade") == "true"?true:false);
+        capabilities->setProperty("httpSystemBackup",result->getValue("//tt:HttpSystemBackup") == "true"?true:false);
+        capabilities->setProperty("httpSystemLogging",result->getValue("//tt:HttpSystemLogging") == "true"?true:false);
+        capabilities->setProperty("httpSupportInformation",result->getValue("//tt:HttpSupportInformation") == "true"?true:false);
+        capabilities->setProperty("inputConnectors",result->getValue("//tt:InputConnectors").toInt());
+        capabilities->setProperty("relayOutputs",result->getValue("//tt:RelayOutputs").toInt());
+        capabilities->setProperty("tls11",result->getValue("//tt:TLS1.1") == "true"?true:false);
+        capabilities->setProperty("tls12",result->getValue("//tt:TLS1.2") == "true"?true:false);
+        capabilities->setProperty("onboardKeyGeneration",result->getValue("//tt:OnboardKeyGeneration") == "true"?true:false);
+        capabilities->setProperty("accessPolicyConfig",result->getValue("//tt:AccessPolicyConfig") == "true"?true:false);
+        capabilities->setProperty("x509Token",result->getValue("//tt:X.509Token") == "true"?true:false);
+        capabilities->setProperty("samlToken",result->getValue("//tt:SAMLToken") == "true"?true:false);
+        capabilities->setProperty("kerberosToken",result->getValue("//tt:KerberosToken") == "true"?true:false);
+        capabilities->setProperty("relToken",result->getValue("//tt:RELToken") == "true"?true:false);
+        capabilities->setProperty("tls10",result->getValue("//tt:TLS1.0") == "true"?true:false);
+        capabilities->setProperty("dot1x",result->getValue("//tt:Dot1x") == "true"?true:false);
+        capabilities->setProperty("remoteUserHanding",result->getValue("//tt:RemoteUserHanding") == "true"?true:false);
+
+ }
+    delete result;
+    delete msg;
+    return capabilities;
+}
+
+
 
 NetworkInterfaces *DeviceManagement::getNetworkInterfaces()
 {
@@ -211,28 +304,18 @@ NetworkInterfaces *DeviceManagement::getNetworkInterfaces()
     return networkInterfaces;
 }
 
-void DeviceManagement::setNetworkInterfaces()
+void DeviceManagement::setNetworkInterfaces(NetworkInterfaces *networkInterfaces)
 {
-    NetworkInterfaces *networkInterfaces = NULL;
-    networkInterfaces = new NetworkInterfaces();
-    networkInterfaces->setProperty("networkInfacesEnabled",true);
-    networkInterfaces->setProperty("autoNegotiation",true);
-    networkInterfaces->setProperty("speed",100);
-    networkInterfaces->setProperty("duplex",NetworkInterfaces::Full);
-    networkInterfaces->setProperty("mtu",1500);
-    networkInterfaces->setProperty("ipv4Enabled",false);
-    networkInterfaces->setProperty("ipv4ManualAddress","192.168.2.1");
-    networkInterfaces->setProperty("ipv4ManualPrefixLength",24);
-    networkInterfaces->setProperty("ipv4DHCP",true);
     Message *msg = newMessage();
     msg->appendToBody(networkInterfaces->toxml());
     qDebug() << msg->toXmlStr();
-//    MessageParser *result = sendMessage(msg);
-//    if(result != NULL){
-//        delete result;
-//        delete msg;
-//    }
+    MessageParser *result = sendMessage(msg);
+    if(result != NULL){
+        delete result;
+        delete msg;
+    }
 }
+
 
 NetworkProtocols *DeviceManagement::getNetworkProtocols()
 {
