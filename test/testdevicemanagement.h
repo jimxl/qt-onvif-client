@@ -15,8 +15,8 @@ private slots:
     void testGetSystemDateAndTime();
     void testSetSystemDateAndTime();
     void testSetSystemFactoryDefault();
-    void testSetSystemReboot();
-    void testGetUser();
+    void testSystemReboot();
+    void testGetUsers();
     void testGetNetworkInterfaces();
     void testGetNetworkProtocols();
     void testSetNetworkInterfaces();

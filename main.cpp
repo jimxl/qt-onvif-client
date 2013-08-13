@@ -5,7 +5,8 @@
 #include <lib/client.h>
 #include <lib/devicemanagement.h>
 #include <test/testdevicemanagement.h>
-
+#include <test/testmediamanagement.h>
+#include <test/testptzmanagement.h>
 
 using namespace ONVIF;
 
@@ -14,6 +15,8 @@ int main(int argc, char *argv[])
     QCoreApplication a(argc, argv);
     QTest::qExec((new TestMesasge()));
     QTest::qExec((new TestDeviceManagement()));
+    QTest::qExec((new TestMediaManagement()));
+    QTest::qExec((new TestPtzManagement()));
     
 //    DeviceSearcher::instance()->sendSearchMsg();
     

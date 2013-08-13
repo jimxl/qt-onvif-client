@@ -1,6 +1,7 @@
 #include "messageparser.h"
 #include <QHashIterator>
 #include <QDebug>
+#include <QXmlResultItems>
 
 using namespace ONVIF;
 
@@ -23,7 +24,6 @@ MessageParser::~MessageParser() {
 QString MessageParser::getValue(const QString &xpath) {
 
     QString str;
-//    qDebug() << mNamespaceQueryStr + "doc($inputDocument)" + xpath + "/string()";
     mQuery.setQuery(mNamespaceQueryStr + "doc($inputDocument)" + xpath + "/string()");
     if(!mQuery.isValid()) {
         return "";
@@ -31,3 +31,30 @@ QString MessageParser::getValue(const QString &xpath) {
     mQuery.evaluateTo(&str);
     return str.trimmed();
 }
+
+bool MessageParser::find(const QString &xpath)
+{
+    mQuery.setQuery(mNamespaceQueryStr + "doc($inputDocument)" + xpath);
+    if(!mQuery.isValid()){
+        return false;
+    }
+    QXmlResultItems items;
+    mQuery.evaluateTo(&items);
+    QXmlItem item = items.next();
+    if(item.isNull())
+        return false;
+    else
+        return true;
+}
+
+QXmlQuery *MessageParser::query()
+{
+    return &mQuery;
+}
+
+QString MessageParser::nameSpace()
+{
+    return mNamespaceQueryStr;
+}
+
+

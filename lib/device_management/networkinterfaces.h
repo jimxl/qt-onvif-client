@@ -6,6 +6,7 @@ namespace ONVIF {
     class NetworkInterfaces : public QObject {
         Q_OBJECT
         Q_ENUMS(Duplex)
+        Q_PROPERTY(bool result READ result WRITE setResult)
         Q_PROPERTY(bool networkInfacesEnabled READ networkInfacesEnabled WRITE setNetworkInfacesEnabled)
         Q_PROPERTY(bool autoNegotiation READ autoNegotiation WRITE setAutoNegotiation)
         Q_PROPERTY(int speed READ speed WRITE setSpeed)
@@ -102,6 +103,11 @@ namespace ONVIF {
             return m_ipv4DHCP;
         }
 
+        bool result() const
+        {
+            return m_result;
+        }
+
     public slots:
         void setNetworkInfacesEnabled(bool arg)
         {
@@ -178,6 +184,11 @@ namespace ONVIF {
             m_ipv4DHCP = arg;
         }
 
+        void setResult(bool arg)
+        {
+            m_result = arg;
+        }
+
     private:
         bool m_networkInfacesEnabled;
         bool m_autoNegotiation;
@@ -194,6 +205,7 @@ namespace ONVIF {
         int m_ipvLinkLocalPrefixLength;
         QString m_ipv4FromDHCPAddress;
         int m_ipv4FromDHCPPrefixLength;
+        bool m_result;
     };
 }
 #endif // NETWORKINTERFACES_H

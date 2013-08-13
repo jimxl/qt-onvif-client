@@ -11,7 +11,7 @@ TestDeviceManagement::TestDeviceManagement(QObject *parent) :
 }
 
 void TestDeviceManagement::initTestCase() {
-    mDeviceManagement = new DeviceManagement("http://192.168.2.145/onvif/device_service", "admin", "admin");
+    mDeviceManagement = new DeviceManagement("http://192.168.2.113/onvif/device_service", "admin", "nvrnvr888");
 }
 
 void TestDeviceManagement::testGetDeviceInformation() {
@@ -37,20 +37,23 @@ void TestDeviceManagement::testSetSystemDateAndTime(){
     systemDateAndTime->setDaylightSavings(false);
     systemDateAndTime->setTz("CST-8");
     mDeviceManagement->setSystemDateAndTime(systemDateAndTime);
+    QCOMPARE(systemDateAndTime->result(),true);
 }
 
 void TestDeviceManagement::testSetSystemFactoryDefault(){
     SystemFactoryDefault *systemFactoryDefault = new SystemFactoryDefault();
     systemFactoryDefault->setFactoryDefault(SystemFactoryDefault::Hard);
     mDeviceManagement->setSystemFactoryDefault(systemFactoryDefault);
+    QCOMPARE(systemFactoryDefault->result(),true);
 }
 
-void TestDeviceManagement::testSetSystemReboot(){
+void TestDeviceManagement::testSystemReboot(){
     SystemReboot *systemReboot = new SystemReboot();
   //  mDeviceManagement->systemReboot(systemReboot);
+    QCOMPARE(systemReboot->result(),true);
 }
 
-void TestDeviceManagement::testGetUser(){
+void TestDeviceManagement::testGetUsers(){
     Users *user = mDeviceManagement->getUsers();
     QVERIFY(user != NULL);
     QCOMPARE(user->userName(),QString("admin"));
@@ -137,26 +140,30 @@ void TestDeviceManagement::testGetNetworkInterfaces()
 
 void TestDeviceManagement::testSetNetworkInterfaces()
 {
-    NetworkInterfaces *networkInterfaces = new NetworkInterfaces();
-    networkInterfaces->setNetworkInfacesEnabled(true);
-    networkInterfaces->setAutoNegotiation(true);
-    networkInterfaces->setSpeed(100);
-    networkInterfaces->setDuplex(NetworkInterfaces::Full);
-    networkInterfaces->setMtu(1500);
-    networkInterfaces->setIpv4Enabled(true);
-    networkInterfaces->setIpv4ManualAddress("192.168.2.145");
-    networkInterfaces->setIpv4ManualPrefixLength(24);
-    networkInterfaces->setIpv4DHCP(true);
-    mDeviceManagement->setNetworkInterfaces(networkInterfaces);
+//    NetworkInterfaces *networkInterfaces = new NetworkInterfaces();
+//    networkInterfaces->setNetworkInfacesEnabled(true);
+//    networkInterfaces->setAutoNegotiation(true);
+//    networkInterfaces->setSpeed(100);
+//    networkInterfaces->setDuplex(NetworkInterfaces::Full);
+//    networkInterfaces->setMtu(1500);
+//    networkInterfaces->setIpv4Enabled(true);
+//    networkInterfaces->setIpv4ManualAddress("192.168.2.145");
+//    networkInterfaces->setIpv4ManualPrefixLength(24);
+//    networkInterfaces->setIpv4DHCP(true);
+//    mDeviceManagement->setNetworkInterfaces(networkInterfaces);
+//    QCOMPARE(networkInterfaces->result(),true);
 }
 
 void TestDeviceManagement::testGetNetworkProtocols()
 {
     NetworkProtocols *networkProtocols = mDeviceManagement->getNetworkProtocols();
     QVERIFY(networkProtocols != NULL);
-    QCOMPARE(networkProtocols->networkProtocolsName(),QString("RTSP HTTP"));
-    QCOMPARE(networkProtocols->networkProtocolsEnabled(),QString("true true"));
-    QCOMPARE(networkProtocols->networkProtocolsPort(),QString("554 80"));
+    QCOMPARE(networkProtocols->getNetworkProtocolsName()[0],QString("RTSP"));
+    QCOMPARE(networkProtocols->getNetworkProtocolsName()[1],QString("HTTP"));
+    QCOMPARE(networkProtocols->getNetworkProtocolsEnabled()[0],true);
+    QCOMPARE(networkProtocols->getNetworkProtocolsEnabled()[1],true);
+    QCOMPARE(networkProtocols->getNetworkProtocolsPort()[0],554);
+    QCOMPARE(networkProtocols->getNetworkProtocolsPort()[1],80);
 }
 
 

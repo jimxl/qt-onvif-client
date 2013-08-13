@@ -129,6 +129,10 @@ void DeviceManagement::setSystemDateAndTime(SystemDateAndTime *systemDateAndTime
     qDebug() << msg->toXmlStr();
     MessageParser *result = sendMessage(msg);
     if(result != NULL){
+        if(result->find("//tds:SetSystemDateAndTimeResponse"))
+            systemDateAndTime->setResult(true);
+        else
+            systemDateAndTime->setResult(false);
         delete result;
         delete msg;
    }
@@ -141,6 +145,10 @@ void DeviceManagement::setSystemFactoryDefault(SystemFactoryDefault *systemFacto
     qDebug() << msg->toXmlStr();
     MessageParser *result = sendMessage(msg);
     if(result != NULL){
+        if(result->find("//tds:SetSystemFactoryDefaultResponse"))
+            systemFactoryDefault->setResult(true);
+        else
+            systemFactoryDefault->setResult(false);
         delete result;
         delete msg;
     }
@@ -153,6 +161,10 @@ void DeviceManagement::systemReboot(SystemReboot *systemReboot)
     qDebug() << msg->toXmlStr();
     MessageParser *result = sendMessage(msg);
     if(result != NULL){
+        if(result->find("//tds:SystemRebootResponse"))
+            systemReboot->setResult(true);
+        else
+            systemReboot->setResult(false);
         delete result;
         delete msg;
     }
@@ -311,6 +323,10 @@ void DeviceManagement::setNetworkInterfaces(NetworkInterfaces *networkInterfaces
     qDebug() << msg->toXmlStr();
     MessageParser *result = sendMessage(msg);
     if(result != NULL){
+        if(result->find("//tds:SetNetworkInterfacesResponse"))
+            networkInterfaces->setResult(true);
+        else
+            networkInterfaces->setResult(false);
         delete result;
         delete msg;
     }
@@ -325,9 +341,28 @@ NetworkProtocols *DeviceManagement::getNetworkProtocols()
     MessageParser *result = sendMessage(msg);
     if(result != NULL){
         networkProtocols = new NetworkProtocols();
-        networkProtocols->setProperty("networkProtocolsName",result->getValue("//tds:NetworkProtocols/tt:Name"));
-        networkProtocols->setProperty("networkProtocolsEnabled",result->getValue("//tds:NetworkProtocols/tt:Enabled"));
-        networkProtocols->setProperty("networkProtocolsPort",result->getValue("//tds:NetworkProtocols/tt:Port"));
+        QXmlQuery *query = result->query();
+        query->setQuery(result->nameSpace()+"doc($inputDocument)//tds:NetworkProtocols");
+        QXmlResultItems items;
+        query->evaluateTo(&items);
+        QXmlItem item = items.next();
+        QString protocolsName,protocolsEnabled,protocolsPort;
+        while(!item.isNull()){
+            query->setFocus(item);
+            query->setQuery(result->nameSpace()+"./tt:Name/string()");
+            query->evaluateTo(&protocolsName);
+            networkProtocols->setNetworkProtocolsName(protocolsName.trimmed());
+
+            query->setQuery(result->nameSpace()+"./tt:Enabled/string()");
+            query->evaluateTo(&protocolsEnabled);
+            networkProtocols->setNetworkProtocolsEnabled(protocolsEnabled.trimmed() == "true"?true:false);
+
+            query->setQuery(result->nameSpace()+"./tt:Port/string()");
+            query->evaluateTo(&protocolsPort);
+            networkProtocols->setNetworkProtocolsPort(protocolsPort.trimmed().toInt());
+            item = items.next();
+        }
+
     }
     delete result;
     delete msg;

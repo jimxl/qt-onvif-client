@@ -13,6 +13,7 @@ namespace ONVIF {
         
         Q_PROPERTY(QDateTime utcTime READ utcTime WRITE setutcTime)
         Q_PROPERTY(QDateTime localTime READ localTime WRITE setlocalTime)
+        Q_PROPERTY(bool result READ result WRITE setResult)
     public:
         explicit SystemDateAndTime(QObject *parent = NULL);
         
@@ -47,6 +48,11 @@ namespace ONVIF {
             return m_tz;
         }
 
+        bool result() const
+        {
+            return m_result;
+        }
+
     public slots:
         void setDaylightSavings(bool arg)
         {
@@ -72,6 +78,11 @@ namespace ONVIF {
             m_tz = arg;
         }
 
+        void setResult(bool arg)
+        {
+            m_result = arg;
+        }
+
     private:
         bool m_daylightSavings;
         DateTimeType m_dateTimeType;
@@ -79,6 +90,7 @@ namespace ONVIF {
         QDateTime m_utcTime;
         QDateTime m_localTime;
         QString m_tz;
+        bool m_result;
     };
 }
 

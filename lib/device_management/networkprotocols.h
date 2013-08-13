@@ -1,52 +1,48 @@
 #ifndef NETWORKPROTOCOLS_H
 #define NETWORKPROTOCOLS_H
 #include <QObject>
+#include <QList>
 namespace ONVIF {
     class NetworkProtocols : public QObject {
         Q_OBJECT
-        Q_PROPERTY(QString networkProtocolsName READ networkProtocolsName WRITE setNetworkProtocolsName)
-        Q_PROPERTY(QString networkProtocolsEnabled READ networkProtocolsEnabled WRITE setNetworkProtocolsEnabled)
-        Q_PROPERTY(QString networkProtocolsPort READ networkProtocolsPort WRITE setNetworkProtocolsPort)
-
     public:
         explicit NetworkProtocols(QObject *parent = NULL);
         virtual ~NetworkProtocols();
 
-        QString networkProtocolsName() const
+        QList<QString> getNetworkProtocolsName()
         {
             return m_networkProtocolsName;
         }
 
-        QString networkProtocolsEnabled() const
+        void setNetworkProtocolsName(QString networkProtocolsName)
+        {
+            m_networkProtocolsName.push_back(networkProtocolsName);
+        }
+
+        QList<bool> getNetworkProtocolsEnabled()
         {
             return m_networkProtocolsEnabled;
         }
 
-        QString networkProtocolsPort() const
+        void setNetworkProtocolsEnabled(bool networkProtocolsEnabled)
+        {
+            m_networkProtocolsEnabled.push_back(networkProtocolsEnabled);
+        }
+
+        QList<int> getNetworkProtocolsPort()
         {
             return m_networkProtocolsPort;
         }
 
-    public slots:
-        void setNetworkProtocolsName(QString arg)
+        void setNetworkProtocolsPort(int networkProtocolsPort)
         {
-            m_networkProtocolsName = arg;
-        }
-
-        void setNetworkProtocolsEnabled(QString arg)
-        {
-            m_networkProtocolsEnabled = arg;
-        }
-
-        void setNetworkProtocolsPort(QString arg)
-        {
-            m_networkProtocolsPort = arg;
+            m_networkProtocolsPort.push_back(networkProtocolsPort);
         }
 
     private:
-        QString m_networkProtocolsEnabled;
-        QString m_networkProtocolsPort;
-        QString m_networkProtocolsName;
+        QList<QString> m_networkProtocolsName;
+        QList<bool> m_networkProtocolsEnabled;
+        QList<int> m_networkProtocolsPort;
     };
 }
 #endif // NETWORKPROTOCOLS_H
