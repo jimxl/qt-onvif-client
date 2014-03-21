@@ -4,7 +4,8 @@
 #
 #-------------------------------------------------
 
-QT       += core testlib xml network xmlpatterns
+ # for newer QT added http, built outside
+QT       += core testlib xml network xmlpatterns http
 
 QT       -= gui
 
