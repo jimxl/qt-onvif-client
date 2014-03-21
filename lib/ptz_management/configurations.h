@@ -50,7 +50,7 @@ namespace ONVIF {
             return m_defaultAbsolutePantTiltPositionSpace;
         }
 
-        void setDefaultAbsolutePantTiltPositionSpace(QString defaultAbsolutePantTiltPositionSpace)
+        void setDefaultAbsolutePanTiltPositionSpace(QString defaultAbsolutePantTiltPositionSpace)
         {
             m_defaultAbsolutePantTiltPositionSpace.push_back(defaultAbsolutePantTiltPositionSpace);
         }

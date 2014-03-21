@@ -118,7 +118,7 @@ Configurations *PtzManagement::getConfigurations()
 
             query->setQuery(result->nameSpace()+"./tt:DefaultAbsolutePantTiltPositionSpace/string()");
             query->evaluateTo(&value);
-            configurations->setDefaultAbsolutePantTiltPositionSpace(value.trimmed());
+            configurations->setDefaultAbsolutePanTiltPositionSpace(value.trimmed());
 
             query->setQuery(result->nameSpace()+"./tt:DefaultAbsoluteZoomPositionSpace/string()");
             query->evaluateTo(&value);
@@ -574,7 +574,7 @@ void PtzManagement::getConfiguration(Configuration *configuration)
         configuration->setName(result->getValue("//tt:Name").trimmed());
         configuration->setUseCount(result->getValue("//tt:UseCount").trimmed().toInt());
         configuration->setNodeToken(result->getValue("//tt:NodeToken").trimmed());
-        configuration->setDefaultAbsolutePantTiltPositionSpace(result->getValue("//tt:DefaultAbsolutePantTiltPositionSpace").trimmed());
+        configuration->setDefaultAbsolutePanTiltPositionSpace(result->getValue("//tt:DefaultAbsolutePantTiltPositionSpace").trimmed());
         configuration->setDefaultAbsoluteZoomPositionSpace(result->getValue("//tt:DefaultAbsoluteZoomPositionSpace").trimmed());
         configuration->setDefaultContinuousPanTiltVelocitySpace(result->getValue("//DefaultContinuousPanTiltVelocitySpace").trimmed());
         configuration->setDefaultContinuousZoomVelocitySpace(result->getValue("//tt:DefaultContinuousZoomVelocitySpace").trimmed());
