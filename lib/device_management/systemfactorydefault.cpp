@@ -1,5 +1,5 @@
 #include "systemfactorydefault.h"
-#include "lib/message.h"
+#include "libONVIF/message.h"
 using namespace ONVIF;
 
 SystemFactoryDefault::SystemFactoryDefault(QObject *parent) : QObject(parent) {

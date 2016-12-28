@@ -1,5 +1,5 @@
 #include "absolutemove.h"
-#include "lib/message.h"
+#include "libONVIF/message.h"
 using namespace ONVIF;
 
 AbsoluteMove::AbsoluteMove(QObject *parent):QObject(parent)

@@ -28,10 +28,10 @@ namespace ONVIF {
 
         void removePreset(RemovePreset *removePreset);
         void setPreset(Preset *preset);
-        void continuousMove(ContinuousMove *continuousMove);
+        Q_SLOT void continuousMove(ContinuousMove *continuousMove);
         void absoluteMove(AbsoluteMove *absoluteMove);
         void relativeMove(RelativeMove *relativeMove);
-        void stop(Stop *stop);
+        Q_SLOT void stop(Stop *stop);
         void gotoPreset(GotoPreset *gotoPreset);
         void gotoHomePosition(GotoHomePosition *gotoHomePosition);
 

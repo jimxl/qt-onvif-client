@@ -36,7 +36,6 @@ QDomElement ONVIF::newElement(const QString &name, const QString &value) {
     return doc.firstChildElement();
 }
 
-
 Message *Message::getOnvifSearchMessage() {
     QHash<QString, QString> namespaces;
     namespaces.insert("a", "http://schemas.xmlsoap.org/ws/2004/08/addressing");
@@ -88,7 +87,7 @@ Message* Message::getMessageWithUserInfo(QHash<QString, QString> &namespaces, co
 
 Message::Message(const QHash<QString, QString> &namespaces, QObject *parent) : QObject(parent) {
     this->mNamespaces = namespaces;
-    mDoc.appendChild(mDoc.createProcessingInstruction("xml", "version=\"1.0\" encoding=\"UTF-8\""));
+    mDoc.appendChild(mDoc.createProcessingInstruction("xml", "version=\"1.0\" encoding=\"utf-8\""));
     mEnv = mDoc.createElementNS("http://www.w3.org/2003/05/soap-envelope", "soap:Envelope");
     mHeader = mDoc.createElement("soap:Header");
     mBody = mDoc.createElement("soap:Body");

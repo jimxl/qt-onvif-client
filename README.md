@@ -1,9 +1,7 @@
-qt-onvif-client
-===============
+forked from jimxl/qt-onvif-client
+=================================
 
-qt实现的onvif的客户端
+Qt/ONVIF Client compatible with Qt5
 
-## 使用
-
-具体的使用可以先参考 test里面的测试用例，详细的文档有待将来的补充.
+Full support ONVIF specification v2
 

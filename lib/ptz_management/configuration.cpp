@@ -1,5 +1,5 @@
 #include "configuration.h"
-#include "lib/message.h"
+#include "libONVIF/message.h"
 using namespace ONVIF;
 
 Configuration::Configuration(QObject *parent):QObject(parent)

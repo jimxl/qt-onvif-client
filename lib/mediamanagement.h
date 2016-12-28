@@ -25,6 +25,7 @@ namespace ONVIF {
         Profiles *getProfiles();
         Profile *getProfile720P();
         Profile *getProfileD1();
+        void setVideoEncoderConfiguration(VideoEncoderConfiguration *encode);
         AudioSourceConfigurations *getAudioSourceConfigurations();
         AudioEncoderConfigurations *getAudioEncoderConfigurations();
         VideoSourceConfiguration *getVideoSourceConfiguration();

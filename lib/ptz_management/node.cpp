@@ -1,5 +1,5 @@
 #include "node.h"
-#include "lib/message.h"
+#include "libONVIF/message.h"
 using namespace ONVIF;
 
 Node::Node(QObject *parent):QObject(parent)

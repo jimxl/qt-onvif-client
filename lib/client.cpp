@@ -1,31 +1,39 @@
 #include "client.h"
-#include <QHttp>
 #include <QEventLoop>
 #include <QUrl>
 #include <QDebug>
+#include <QMessageBox>
 
 using namespace ONVIF;
 
 Client::Client(const QString &url) {
     mUrl = url;
+    //reply->ignoreSslErrors();
 }
 
 QString Client::sendData(const QString &data) {
-//    qDebug() << "send to url => " << mUrl << " | data => " << data;
-    QHttp http;
-    http.ignoreSslErrors();
+    //    qDebug() << "send to url => " << mUrl << " | data => " << data;
+
     QUrl url(mUrl);
-    http.setHost(url.host());
-    http.post(url.path(), data.toUtf8());
-    waitForFinish(http);
-    if(http.error() != QHttp::NoError) {
+    QNetworkRequest requete(url);
+    requete.setHeader( QNetworkRequest::ContentTypeHeader, QVariant( QString("text/xml;charset=utf-8")));
+    requete.setHeader(QNetworkRequest::ContentLengthHeader, QVariant( qulonglong(data.size()) ));
+    requete.setAttribute(QNetworkRequest::CacheLoadControlAttribute, QVariant( int(QNetworkRequest::AlwaysNetwork) ));
+    //requete.setHeader(QNetworkRequest::ContentTypeHeader,QVariant("application/x-www-form-urlencoded"));
+    QNetworkAccessManager *manager = new QNetworkAccessManager;
+    reply = manager->post(requete, data.toUtf8());
+    reply->ignoreSslErrors();
+    waitForFinished(reply);
+    if(reply->error() != QNetworkReply::NoError) {
+        qDebug() << reply->error();
         return "";
     }
-    return QString(http.readAll());
+    return QString(reply->readAll());
 }
 
-void Client::waitForFinish(const QHttp &http) {
+void Client::waitForFinished(const QNetworkReply* reply) {
     QEventLoop loop;
-    connect(&http, SIGNAL(done(bool)), &loop, SLOT(quit()));
-    loop.exec();    
+    connect(reply, SIGNAL(finished()), &loop, SLOT(quit()));
+    loop.exec();
 }
+

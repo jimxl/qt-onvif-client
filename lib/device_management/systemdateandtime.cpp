@@ -1,5 +1,5 @@
 #include "systemdateandtime.h"
-#include "lib/message.h"
+#include "libONVIF/message.h"
 using namespace ONVIF;
 
 SystemDateAndTime::SystemDateAndTime(QObject *parent) : QObject(parent) {

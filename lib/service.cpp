@@ -26,6 +26,7 @@ MessageParser *Service::sendMessage(Message *message, const QString &namespaceKe
     if(message == NULL) {
         return NULL;
     }
+    qDebug() << message->toXmlStr();
     QString result = mClient->sendData(message->toXmlStr());
     qDebug() << "receive data ==> " << result;
     if(result == "") {

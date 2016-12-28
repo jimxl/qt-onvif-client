@@ -2,6 +2,7 @@
 #define ONVIF_SYSTEMDATEANDTIME_H
 
 #include <QDateTime>
+#include <QObject>
 #include <QDomElement>
 namespace ONVIF {
     class SystemDateAndTime : public QObject {
