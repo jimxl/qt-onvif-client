@@ -1,5 +1,5 @@
 #include "relativemove.h"
-#include "lib/message.h"
+#include "libONVIF/message.h"
 using namespace ONVIF;
 
 RelativeMove::RelativeMove(QObject *parent):QObject(parent)

@@ -1,6 +1,7 @@
 #ifndef VIDEOENCODERCONFIGURATION_H
 #define VIDEOENCODERCONFIGURATION_H
 #include <QObject>
+#include <QDomElement>
 
 namespace  ONVIF {
     class VideoEncoderConfiguration : public QObject
@@ -28,6 +29,7 @@ namespace  ONVIF {
     public:
         explicit VideoEncoderConfiguration(QObject *parent = NULL);
         virtual ~VideoEncoderConfiguration();
+        QDomElement toxml();
 
         QString token() const
         {
@@ -220,6 +222,11 @@ namespace  ONVIF {
             m_sessionTimeout = arg;
         }
 
+        void setResult(bool arg)
+        {
+            m_result = arg;
+        }
+
     private:
         QString m_token;
         QString m_name;
@@ -239,6 +246,7 @@ namespace  ONVIF {
         int m_port;
         int m_ttl;
         bool m_autoStart;
+        bool m_result;
         QString m_sessionTimeout;
     };
 }

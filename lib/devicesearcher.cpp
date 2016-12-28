@@ -75,8 +75,8 @@ void DeviceSearcher::readPendingDatagrams() {
         namespaces.insert("dnrd", "http://www.onvif.org/ver10/network/wsdl/RemoteDiscoveryBinding");
         namespaces.insert("dn", "http://www.onvif.org/ver10/network/wsdl");
         namespaces.insert("tad", "http://www.onvif.org/ver10/analyticsdevice/wsdl");
-        namespaces.insert("tanae", "http://www.onvif.org/ver20/analytics/wsdl/AnalyticsEngineBinding");
-        namespaces.insert("tanre", "http://www.onvif.org/ver20/analytics/wsdl/RuleEngineBinding");
+        namespaces.insert("tanae", "http://www.onvif.org/ver10/analytics/wsdl/AnalyticsEngineBinding");
+        namespaces.insert("tanre", "http://www.onvif.org/ver10/analytics/wsdl/RuleEngineBinding");
         namespaces.insert("tan", "http://www.onvif.org/ver20/analytics/wsdl");
         namespaces.insert("tds", "http://www.onvif.org/ver10/device/wsdl");
         namespaces.insert("tetcp", "http://www.onvif.org/ver10/events/wsdl/CreatePullPointBinding");
@@ -90,7 +90,7 @@ void DeviceSearcher::readPendingDatagrams() {
         namespaces.insert("wsnt", "http://docs.oasis-open.org/wsn/b-2");
         namespaces.insert("tetsm", "http://www.onvif.org/ver10/events/wsdl/SubscriptionManagerBinding");
         namespaces.insert("timg", "http://www.onvif.org/ver20/imaging/wsdl");
-        namespaces.insert("timg10", "http://www.onvif.org/ver10/imaging/wsdl");
+        namespaces.insert("timg10", "http://www.onvif.org/ver20/imaging/wsdl");
         namespaces.insert("tls", "http://www.onvif.org/ver10/display/wsdl");
         namespaces.insert("tmd", "http://www.onvif.org/ver10/deviceIO/wsdl");
         namespaces.insert("tptz", "http://www.onvif.org/ver20/ptz/wsdl");

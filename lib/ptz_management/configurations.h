@@ -50,7 +50,7 @@ namespace ONVIF {
             return m_defaultAbsolutePantTiltPositionSpace;
         }
 
-        void setDefaultAbsolutePantTiltPositionSpace(QString defaultAbsolutePantTiltPositionSpace)
+        void setDefaultAbsolutePanTiltPositionSpace(QString defaultAbsolutePantTiltPositionSpace)
         {
             m_defaultAbsolutePantTiltPositionSpace.push_back(defaultAbsolutePantTiltPositionSpace);
         }
@@ -128,6 +128,17 @@ namespace ONVIF {
         {
             return m_panTiltX;
         }
+
+        Q_SLOT float getPanTiltYFloat()
+        {
+            return m_panTiltY[0];
+        }
+
+        Q_SLOT float getPanTiltXFloat()
+        {
+            return m_panTiltX[0];
+        }
+
         void setPanTiltX(float panTiltX)
         {
             m_panTiltX.push_back(panTiltX);
@@ -146,6 +157,11 @@ namespace ONVIF {
         QList<float> getZoomX()
         {
             return m_zoomX;
+        }
+
+        Q_SLOT float getZoomXFloat()
+        {
+            return m_zoomX[0];
         }
 
         void setZoomX(float zoomX)
@@ -173,7 +189,7 @@ namespace ONVIF {
             m_panTiltRangeUri.push_back(panTiltRangeUri);
         }
 
-        QList<float> getPanTiltXRangeMin()
+       Q_SLOT QList<float> getPanTiltXRangeMin()
         {
             return m_panTiltXRangeMin;
         }
@@ -183,7 +199,7 @@ namespace ONVIF {
             m_panTiltXRangeMin.push_back(panTiltXRangeMin);
         }
 
-        QList<float> getPanTiltXRangeMax()
+        Q_SLOT QList<float> getPanTiltXRangeMax()
         {
             return m_panTiltXRangeMax;
         }
@@ -193,9 +209,19 @@ namespace ONVIF {
             m_panTiltXRangeMax.push_back(panTiltXRangeMax);
         }
 
-        QList<float> getPanTiltYRangeMin()
+        Q_SLOT QList<float> getPanTiltYRangeMin()
         {
             return m_panTiltYRangeMin;
+        }
+
+        Q_SLOT float getPanTiltYRangeMinFloat()
+        {
+            return m_panTiltYRangeMin[0];
+        }
+
+        Q_SLOT float getPanTiltXRangeMinFloat()
+        {
+            return m_panTiltXRangeMin[0];
         }
 
         void setPanTiltYRangeMin(float panTiltYRangeMin)
@@ -203,9 +229,19 @@ namespace ONVIF {
             m_panTiltYRangeMin.push_back(panTiltYRangeMin);
         }
 
-        QList<float> getPanTiltYRangeMax()
+        Q_SLOT QList<float> getPanTiltYRangeMax()
         {
             return m_panTiltYRangeMax;
+        }
+
+        Q_SLOT float getPanTiltYRangeMaxFloat()
+        {
+            return m_panTiltYRangeMax[0];
+        }
+
+        Q_SLOT float getPanTiltXRangeMaxFloat()
+        {
+            return m_panTiltXRangeMax[0];
         }
 
         void setPanTiltYRangeMax(float panTiltYRangeMax)
@@ -236,6 +272,16 @@ namespace ONVIF {
         QList<float> getZoomXRangeMax()
         {
             return m_zoomXRangeMax;
+        }
+
+        Q_SLOT float getZoomXRangeMaxFloat()
+        {
+            return m_zoomXRangeMax[0];
+        }
+
+        Q_SLOT float getZoomXRangeMinFloat()
+        {
+            return m_zoomXRangeMin[0];
         }
 
         void setZoomXRangeMax(float zoomXRangeMax)

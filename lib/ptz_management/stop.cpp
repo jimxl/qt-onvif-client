@@ -1,5 +1,5 @@
 #include "stop.h"
-#include "lib/message.h"
+#include "libONVIF/message.h"
 using namespace ONVIF;
 Stop::Stop(QObject *parent):QObject(parent)
 {
